@@ -45,10 +45,15 @@ namespace Calc2
                     Console.WriteLine("Error wrong input, try +1, -5, /4, *2");
                     continue;
                 }
+                // Flexible variable of type BaseCalculator so it can hold any object from subclasses(Add, subtract etc)
                 BaseCalculator operationInstance;
                 // Select operation
                 try
                 {
+                    // Determine which operation to execute based on stored operation(+,-,/,%,*) that we extracted above
+                    // Creating the correct instance (add, minus, multiply, divide, etc).
+                    // Achieved = Polymorphism (we use same named method "Execute" on all operations)
+                    // Not achieved = Method overloading. We didnt overload the execute method itself with different parameters.
                     operationInstance = OperationFactory.GetOperations(operation.ToString());
                 }
                 catch (ArgumentException error)
@@ -56,10 +61,10 @@ namespace Calc2
                     Console.WriteLine(error.Message);
                     continue;
                 }
-
-                // Execute operation
+            
                 try
                 {
+                    // And here we execute the selected operation
                     total = operationInstance.Execute(total, number);
                 }
                 catch (DivideByZeroException)
